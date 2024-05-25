@@ -1,5 +1,6 @@
+"use client";
 import React from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import '@/styles/globals.css';
 
 const Dashboard: React.FC = () => {
@@ -10,25 +11,25 @@ const Dashboard: React.FC = () => {
             <h1 className="text-2xl font-bold text-center mb-8">Staff Dashboard</h1>
             <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
                 <button
-                    onClick={() => router.push('/staff-db/OnGoingTopUps')}
+                    onClick={() => router.push('/staff/OnGoingTopUps')}
                     className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
                 >
                     On Going Top Ups
                 </button>
                 <button
-                    onClick={() => router.push('/staff-db/OnGoingPayments')}
+                    onClick={() => router.push('/staff/OnGoingPayments')}
                     className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
                 >
                     On Going Payments
                 </button>
                 <button
-                    onClick={() => router.push('/staff-db/TopUpHistory')}
+                    onClick={() => router.push('/staff/TopUpHistory')}
                     className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
                 >
                     Top Up History
                 </button>
                 <button
-                    onClick={() => router.push('/staff-db/PaymentHistory')}
+                    onClick={() => router.push('/staff/PaymentHistory')}
                     className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
                 >
                     Payment History
