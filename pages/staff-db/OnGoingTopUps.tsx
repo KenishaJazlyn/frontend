@@ -9,26 +9,26 @@ const OnGoingTopUps: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const baseUrl = 'http://34.87.57.125/api/topups/pending';
+                const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result = await response.json();
+                setData(result);
+            } catch (error) {
+                console.error("Error fetching data", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchData();
     }, [sortMethod]);
-
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const baseUrl = 'http://34.87.57.125/api/topups/pending';
-            const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const result = await response.json();
-            setData(result);
-        } catch (error) {
-            console.error("Error fetching data", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const updateStatus = async (id: string, status: string) => {
         try {

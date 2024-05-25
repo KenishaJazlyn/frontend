@@ -9,26 +9,26 @@ const TopUpHistory: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const baseUrl = 'http://34.87.57.125/api/topups/non-pending';
+                const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const result = await response.json();
+                setData(result);
+            } catch (error) {
+                console.error("Error fetching data", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchData();
     }, [sortMethod]);
-
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const baseUrl = 'http://34.87.57.125/api/topups/non-pending';
-            const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const result = await response.json();
-            setData(result);
-        } catch (error) {
-            console.error("Error fetching data", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <div className="py-12 container mx-auto">
@@ -48,8 +48,8 @@ const TopUpHistory: React.FC = () => {
                     <option value="">No Sorting</option>
                     <option value="status">Sort by Status (SUCCESS-FAILED)</option>
                     <option value="statusReverse">Sort by Status (FAILED-SUCCESS)</option>
-                    <option value="transactionTimeAsc">Sort by Transaction Time (Oldest-Newest)</option>
-                    <option value="transactionTimeDesc">Sort by Transaction Time (Newest-Oldest)</option>
+                    <option value="transactionTimeAsc">Sort by Transaction Time (Newest-Oldest)</option>
+                    <option value="transactionTimeDesc">Sort by Transaction Time (Oldest-Newest)</option>
                     <option value="amount">Sort by Amount (Low-High)</option>
                     <option value="amountReverse">Sort by Amount (High-Low)</option>
                     <option value="ownerId">Sort by Owner ID</option>
