@@ -15,7 +15,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ reviews, idProduct }) => {
 
   return (
     <div>
-      <ReviewList reviews={reviewsState}  />
+      <ReviewList reviews={reviewsState} productId={idProduct} />
     </div>
   );
 };

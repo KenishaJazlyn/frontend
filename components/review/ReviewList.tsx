@@ -12,11 +12,13 @@ export interface Review {
 
 interface ReviewListProps {
   reviews: Review[];
+  productId: string;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
+const ReviewList: React.FC<ReviewListProps> = ({ reviews, productId }) => {
   const router = useRouter();
   const [currentReviews, setReviews] = useState<Review[]>(reviews);
+  const [sortOrder, setSortOrder] = useState<string>('');
 
   const deleteReview = async (reviewId: string) => {
     try {
@@ -38,13 +40,49 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
   };
 
   const editReview = (reviewId: string) => {
-    // Redirect to edit page or open edit modal
     router.push(`/editReview/${reviewId}`);
+  };
+
+  const fetchSortedReviews = async (order: string) => {
+    try {
+      const endpoint = order === 'asc' 
+        ? `http://34.87.57.125/api/reviewProduct/sortedByRating/${productId}` 
+        : `http://34.87.57.125/api/reviewProduct/sortedByRatingDesc/${productId}`;
+      
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      });
+
+      if (response.ok) {
+        const sortedReviews = await response.json();
+        setReviews(sortedReviews);
+      } else {
+        console.error('Gagal mengambil review:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOrder = event.target.value;
+    setSortOrder(selectedOrder);
+    fetchSortedReviews(selectedOrder);
   };
 
   return (
     <div className="py-12 container mx-auto">
       <h1 className="text-2xl font-bold text-center">Product Reviews</h1>
+      <div className="flex justify-end mb-4">
+        <select value={sortOrder} onChange={handleSortChange} className="border rounded p-2">
+          <option value="">No Sorting</option>
+          <option value="asc">Sort by Rating (Lowest First)</option>
+          <option value="desc">Sort by Rating (Highest First)</option>
+        </select>
+      </div>
       {currentReviews.map((review: Review) => (
         <div key={review.reviewId} className="mt-4 bg-white shadow-lg rounded-lg p-4 relative">
           <div className="absolute top-2 right-2 flex">
@@ -68,6 +106,6 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
       ))}
     </div>
   );
-};  
+};
 
 export default ReviewList;
