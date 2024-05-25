@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import '@/app/globals.css';
 
@@ -8,27 +8,27 @@ const PaymentHistory: React.FC = () => {
     const [sortMethod, setSortMethod] = useState<string | null>(null); // Default to null for initial fetch
     const router = useRouter();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const baseUrl = 'http://34.87.57.125/api/payments/non-pending';
-                const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const result = await response.json();
-                setData(result);
-            } catch (error) {
-                console.error("Error fetching data", error);
-            } finally {
-                setLoading(false);
+    const fetchData = useCallback(async () => {
+        setLoading(true);
+        try {
+            const baseUrl = 'http://34.87.57.125/api/payments/non-pending';
+            const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        };
-
-        fetchData();
+            const result = await response.json();
+            setData(result);
+        } catch (error) {
+            console.error("Error fetching data", error);
+        } finally {
+            setLoading(false);
+        }
     }, [sortMethod]);
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
 
     return (
         <div className="py-12 container mx-auto">
