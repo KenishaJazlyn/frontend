@@ -1,14 +1,28 @@
 // pages/index.js
+"use client";
 import Header from "@/components/Header";
 import Head from "next/head";
 import Link from "next/link";
-import router from "next/router";
+import { useEffect, useState } from "react";
 import { getCookie } from '@/utils/cookies';
 
 export default function Home() {
-  const usernameget = getCookie('username');
+  const [username, setUsername] = useState('');
+  const [money, setMoney] = useState('');
+
+  useEffect(() => {
+    const user = getCookie('username') || '';
+    const balance = getCookie('money') || ''; 
+    setUsername(user);
+    setMoney(balance);
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <Head>
+        <title>Farrel - Welcome</title>
+      </Head>
+
       <main className="flex flex-col items-center justify-center flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold">
           Welcome to{" "}
@@ -16,9 +30,17 @@ export default function Home() {
             Farrel
           </span>
         </h1>
+
         <p className="mt-3 text-2xl">
           Discover unique fashion items at unbeatable prices
         </p>
+
+        {username && (
+          <div className="mt-6 text-xl">
+            <p>Hello, {username}!</p>
+            <p>Your balance: Rp{money}</p>
+          </div>
+        )}
 
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
           <Link

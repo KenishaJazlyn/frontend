@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { getCookie, setCookie } from '@/utils/cookies';
 import '@/app/globals.css';
 import withAuth from '@/components/hoc/withAuth';
 
@@ -13,7 +14,7 @@ const OnGoingTopUps: React.FC = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const baseUrl = 'http://34.87.57.125/api/topups/pending';
+            const baseUrl = 'http://localhost:8080/api/topups/pending';
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
             console.log('Response status:', response.status);
@@ -34,7 +35,7 @@ const OnGoingTopUps: React.FC = () => {
         fetchData();
     }, [fetchData]);
 
-    const updateStatus = async (id: string, status: string) => {
+    const updateStatus = async (id: string, status: string, userOwnerId: string, amount: number) => {
         try {
             const response = await fetch(`http://34.87.57.125/api/topup/${id}/update-status/${status}`, {
                 method: 'PUT',
@@ -44,13 +45,22 @@ const OnGoingTopUps: React.FC = () => {
             });
             if (response.ok) {
                 setData(prevData => prevData.filter(item => item.topUpId !== id));
+                if (status == "success") {
+                    await fetch(`http://34.87.158.208/addUserMoney/${userOwnerId}/${amount}`, {
+                        method: 'PUT',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        }
+                    });
+                }
+    
             } else {
                 console.error('Failed to update status:', response.statusText);
             }
         } catch (error) {
             console.error('Error:', error);
         }
-    };
+    };    
 
     return (
         <div className="py-12 container mx-auto">
@@ -91,13 +101,13 @@ const OnGoingTopUps: React.FC = () => {
                                     <p><strong>User Owner ID:</strong> {topUp.userOwnerId}</p>
                                     <div className="flex space-x-4 mt-2">
                                         <button
-                                            onClick={() => updateStatus(topUp.topUpId, 'success')}
+                                            onClick={() => updateStatus(topUp.topUpId, 'success', topUp.userOwnerId, topUp.amount)}
                                             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
                                         >
                                             Approve
                                         </button>
                                         <button
-                                            onClick={() => updateStatus(topUp.topUpId, 'failed')}
+                                            onClick={() => updateStatus(topUp.topUpId, 'failed', topUp.userOwnerId, topUp.amount)}
                                             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
                                         >
                                             Decline

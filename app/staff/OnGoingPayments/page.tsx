@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { getCookie } from '@/utils/cookies'; // Pastikan Anda memiliki fungsi getCookie
 import '@/app/globals.css';
 import withAuth from '@/components/hoc/withAuth';
 
@@ -34,7 +35,7 @@ const OnGoingPayments: React.FC = () => {
         fetchData();
     }, [fetchData]);
 
-    const updateStatus = async (id: string, status: string) => {
+    const updateStatus = async (id: string, status: string, userId: string, amount: number) => {
         try {
             const response = await fetch(`http://34.87.57.125/api/payment/${id}/update-status/${status}`, {
                 method: 'PUT',
@@ -44,6 +45,14 @@ const OnGoingPayments: React.FC = () => {
             });
             if (response.ok) {
                 setData(prevData => prevData.filter(item => item.id !== id));
+                if (status === 'success') {
+                    await fetch(`http://34.87.158.208/subsUserMoney/${userId}/${amount}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                }
             } else {
                 console.error('Failed to update status:', response.statusText);
             }
@@ -88,13 +97,13 @@ const OnGoingPayments: React.FC = () => {
                                     <p><strong>User Owner ID:</strong> {payment.userId}</p>
                                     <div className="flex space-x-4 mt-2">
                                         <button
-                                            onClick={() => updateStatus(payment.id, 'success')}
+                                            onClick={() => updateStatus(payment.id, 'success', payment.userId, payment.amount)}
                                             className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
                                         >
                                             Approve
                                         </button>
                                         <button
-                                            onClick={() => updateStatus(payment.id, 'failed')}
+                                            onClick={() => updateStatus(payment.id, 'failed', payment.userId, payment.amount)}
                                             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
                                         >
                                             Decline
