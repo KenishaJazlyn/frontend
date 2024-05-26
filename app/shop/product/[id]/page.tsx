@@ -110,10 +110,16 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
             Add to Cart
           </Link>
           <Link
-            href="#"
+            href={`/reviewProduct/${product.productId}`}
             className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-300"
           >
             See review
+          </Link>
+          <Link
+            href={`/reviewForm/${product.productId}`}
+            className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-300"
+          >
+            Create review
           </Link>
         </div>
       </div>
