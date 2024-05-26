@@ -25,7 +25,9 @@ const UserLoginForm: React.FC<UserLoginFormProps> = ({ onSubmit }) => {
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   };
-
+  const handleRegisterRedirect = () => {
+    router.push('/register');
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Submitting the following data:", JSON.stringify(formData));
@@ -89,6 +91,12 @@ const UserLoginForm: React.FC<UserLoginFormProps> = ({ onSubmit }) => {
             </div>
             {error && <p className="text-red-500">{error}</p>}
             <button type="submit" className="w-full p-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">Login</button>
+            <div className="mt-4 text-center">
+              <p className="text-gray-600">Don't have an account?</p>
+              <button type="button" onClick={handleRegisterRedirect} className="mt-2 p-2 text-sm font-medium text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50">
+                Register
+              </button>
+            </div>
           </form>
         </div>
       </div>
