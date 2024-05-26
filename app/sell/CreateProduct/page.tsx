@@ -2,6 +2,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
+import { getCookie } from '@/utils/cookies';
+import Link from 'next/link';
+
+const usernameget = getCookie('username');
 
 const CreateProduct: React.FC = () => {
     const [productName, setProductName] = useState('');
@@ -49,12 +53,19 @@ const CreateProduct: React.FC = () => {
 
     return (
         <div className="py-12 container mx-auto">
-            <button
-                onClick={() => router.push('/sell')}
-                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 mb-4"
-            >
-                Back
-            </button>
+            <div className="flex justify-between mb-4">
+                <button
+                    onClick={() => router.push('/sell')}
+                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700"
+                >
+                    Back
+                </button>
+                <Link href="/product-list">
+                    <a className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
+                        View My Products
+                    </a>
+                </Link>
+            </div>
             <h1 className="text-2xl font-bold text-center mb-8">Create Product</h1>
             <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-8">
                 <div className="mb-4">

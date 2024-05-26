@@ -3,26 +3,40 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
 
+interface Order {
+    id: string;
+    productName: string;
+    buyerId: string;
+    status: string;
+    productId: string; // Add productId to Order interface
+}
+
+interface Product {
+    productId: string;
+    productName: string;
+    sellerId: string;
+    // Add any other relevant fields from the product
+}
+
 const SoldProducts: React.FC = () => {
-    const [data, setData] = useState<any[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [orders, setOrders] = useState<Order[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
     const [sortMethod, setSortMethod] = useState<string | null>(null);
     const router = useRouter();
 
-    const fetchData = useCallback(async () => {
+    const fetchOrders = useCallback(async () => {
         setLoading(true);
         try {
             const baseUrl = 'http://34.87.57.125/order';
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
-            console.log('Response status:', response.status);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const result = await response.json();
-            console.log('Fetched data:', result);
-            const filteredData = result.filter((order: any) => order.status === "SUCCESS");
-            setData(filteredData);
+            const orders = await response.json();
+            const filteredOrders = orders.filter((order: Order) => order.status === "SUCCESS");
+            setOrders(filteredOrders);
         } catch (error) {
             console.error("Error fetching data", error);
         } finally {
@@ -30,15 +44,37 @@ const SoldProducts: React.FC = () => {
         }
     }, [sortMethod]);
 
+    const fetchProducts = useCallback(async () => {
+        setLoading(true);
+        try {
+            const baseUrl = 'http://34.87.57.125/product';
+            const url = `${baseUrl}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const products = await response.json();
+            setProducts(products);
+        } catch (error) {
+            console.error("Error fetching products", error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        fetchOrders();
+        fetchProducts();
+    }, [fetchOrders, fetchProducts]);
 
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortMethod(e.target.value);
     };
 
-    const sortedData = [...data].sort((a, b) => {
+    const productIds = products.map(product => product.productId);
+    const filteredOrders = orders.filter(order => productIds.includes(order.id));
+
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
         if (sortMethod === 'name') {
             return a.productName.localeCompare(b.productName);
         } else {
@@ -70,7 +106,7 @@ const SoldProducts: React.FC = () => {
                     <p className="text-center">Loading...</p>
                 ) : (
                     <div>
-                        {sortedData.length === 0 ? (
+                        {sortedOrders.length === 0 ? (
                             <p className="text-center">No data to display</p>
                         ) : (
                             <table className="min-w-full bg-white">
@@ -83,7 +119,7 @@ const SoldProducts: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {sortedData.map(order => (
+                                    {sortedOrders.map(order => (
                                         <tr key={order.id}>
                                             <td className="py-2 px-4 border-b">{order.id}</td>
                                             <td className="py-2 px-4 border-b">{order.productName}</td>

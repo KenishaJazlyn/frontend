@@ -2,20 +2,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
+import { getCookie } from '@/utils/cookies';
 
 const OnGoingPayments: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [sortMethod, setSortMethod] = useState<string | null>(null); // Default to null for initial fetch
     const router = useRouter();
+    const username = getCookie('username');
 
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
             const baseUrl = 'http://34.87.57.125/product';
             // const baseUrl = 'http://localhost:8080/product';
-            
-            
 
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
@@ -25,13 +25,15 @@ const OnGoingPayments: React.FC = () => {
             }
             const result = await response.json();
             console.log('Fetched data:', result);
-            setData(result);
+
+            const filteredProducts = result.filter((product: any) => product.sellerId === username);
+            setData(filteredProducts);
         } catch (error) {
             console.error("Error fetching data", error);
         } finally {
             setLoading(false);
         }
-    }, [sortMethod]);
+    }, [sortMethod, username]);
 
     useEffect(() => {
         fetchData();
@@ -52,9 +54,8 @@ const OnGoingPayments: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            const response = await fetch(` http://34.87.57.125/product/${id}`, {
-                // const response = await fetch(' http://localhost:8080/product/${id}', {
-
+            const response = await fetch(`http://34.87.57.125/product/${id}`, {
+                // const response = await fetch('http://localhost:8080/product/${id}', {
                 method: 'DELETE',
             });
             if (!response.ok) {

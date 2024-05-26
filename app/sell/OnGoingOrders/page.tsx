@@ -1,20 +1,21 @@
-"use client"
+"use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
+import { getCookie } from '@/utils/cookies';
 
 const OnGoingPayments: React.FC = () => {
-    const [data, setData] = useState<any[]>([]);
+    const [orders, setOrders] = useState<any[]>([]);
+    const [products, setProducts] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [sortMethod, setSortMethod] = useState<string | null>(null);
     const router = useRouter();
+    const username = getCookie('username');
 
-    const fetchData = useCallback(async () => {
+    const fetchOrders = useCallback(async () => {
         setLoading(true);
         try {
-            const baseUrl = ' http://34.87.57.125/order';
-            // const baseUrl = ' http://localhost:8080/order';
-
+            const baseUrl = 'http://34.87.57.125/order';
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
             console.log('Response status:', response.status);
@@ -22,25 +23,49 @@ const OnGoingPayments: React.FC = () => {
                 throw new Error('Network response was not ok');
             }
             const result = await response.json();
-            console.log('Fetched data:', result);
-            const filteredData = result.filter((order: any) => order.status === "WAITING_PAYMENT");
-            setData(filteredData);
+            console.log('Fetched orders:', result);
+            const filteredOrders = result.filter((order: any) => order.status === "WAITING_PAYMENT");
+            setOrders(filteredOrders);
         } catch (error) {
-            console.error("Error fetching data", error);
+            console.error("Error fetching orders", error);
         } finally {
             setLoading(false);
         }
     }, [sortMethod]);
 
+    const fetchProducts = useCallback(async () => {
+        setLoading(true);
+        try {
+            const baseUrl = 'http://34.87.57.125/product';
+            const url = `${baseUrl}`;
+            const response = await fetch(url);
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            console.log('Fetched products:', result);
+            setProducts(result);
+        } catch (error) {
+            console.error("Error fetching products", error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        fetchOrders();
+        fetchProducts();
+    }, [fetchOrders, fetchProducts]);
 
     const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSortMethod(e.target.value);
     };
 
-    const sortedData = [...data].sort((a, b) => {
+    const productIds = products.map(product => product.productId);
+    const filteredOrders = orders.filter(order => productIds.includes(order.id));
+
+    const sortedOrders = [...filteredOrders].sort((a, b) => {
         if (sortMethod === 'name') {
             return a.productName.localeCompare(b.productName);
         } else {
@@ -72,10 +97,10 @@ const OnGoingPayments: React.FC = () => {
                     <p className="text-center">Loading...</p>
                 ) : (
                     <div>
-                        {sortedData.length === 0 ? (
+                        {sortedOrders.length === 0 ? (
                             <p className="text-center">No data to display</p>
                         ) : (
-                            sortedData.map(order => (
+                            sortedOrders.map(order => (
                                 <div key={order.id} className="bg-white shadow-lg rounded-lg p-4 mb-4">
                                     <p><strong>Order ID:</strong> {order.id}</p>
                                     <p><strong>Status:</strong> {order.status}</p>
