@@ -9,7 +9,8 @@ const Dashboard: React.FC = () => {
     return (
 
       <><button
-        onClick={() => router.push('')}
+        onClick={() => router.push('https://farrelc1-adpro.vercel.app/')}
+
         className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 mb-4"
       >
         Back

@@ -12,7 +12,8 @@ const OnGoingPayments: React.FC = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const baseUrl = 'http://localhost:8080/product';
+            const baseUrl = 'http://34.87.57.125/product';
+
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
             console.log('Response status:', response.status);
@@ -48,7 +49,8 @@ const OnGoingPayments: React.FC = () => {
 
     const handleDelete = async (id: string) => {
         try {
-            const response = await fetch(`http://localhost:8080/product/${id}`, {
+            const response = await fetch(` http://34.87.57.125/product/${id}`, {
+
                 method: 'DELETE',
             });
             if (!response.ok) {

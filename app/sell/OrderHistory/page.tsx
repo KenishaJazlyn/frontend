@@ -18,7 +18,9 @@ const OrdersList: React.FC = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await fetch('http://localhost:8080/order');
+
+                const response = await fetch(' http://34.87.57.125/order');
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch orders');
                 }

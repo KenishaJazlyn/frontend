@@ -18,7 +18,8 @@ const EditProduct: React.FC = () => {
         console.log(params)
         const fetchProduct = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/product/${params!.id}`);
+                const response = await fetch(` http://34.87.57.125/product/${params!.id}`);
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch product');
                 }
@@ -41,7 +42,8 @@ const EditProduct: React.FC = () => {
         setLoading(true);
 
         try {
-            const response = await fetch(`http://localhost:8080/product/${params!.id}`, {
+            const response = await fetch(` https://34.87.57.125/product/${params!.id}`, {
+
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

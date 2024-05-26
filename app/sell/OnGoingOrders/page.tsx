@@ -12,7 +12,8 @@ const OnGoingPayments: React.FC = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const baseUrl = 'http://localhost:8080/order';
+            const baseUrl = ' http://34.87.57.125/order';
+
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
             console.log('Response status:', response.status);

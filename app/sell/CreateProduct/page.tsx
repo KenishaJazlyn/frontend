@@ -18,7 +18,8 @@ const CreateProduct: React.FC = () => {
         setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:8080/product/create', {
+            const response = await fetch(' http://34.87.57.125/product/create', {
+
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
