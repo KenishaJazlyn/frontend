@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 import '@/styles/globals.css';
 
 const Dashboard: React.FC = () => {
@@ -8,32 +9,32 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="py-12 container mx-auto h-screen flex flex-col items-center justify-center">
-            <h1 className="text-2xl font-bold text-center mb-8">Staff Dashboard</h1>
-            <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
-                <button
-                    onClick={() => router.push('/staff/OnGoingTopUps')}
-                    className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
+            <h1 className="text-3xl font-bold text-center mb-12 text-white">Staff Dashboard</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
+                <Link
+                    href="/staff/OnGoingTopUps"
+                    className="p-6 text-center border rounded-xl hover:text-white focus:text-black transition-colors duration-300 ease-in-out hover:bg-gradient-to-br from-indigo-500 to-purple-500 bg-white shadow-lg"
                 >
-                    On Going Top Ups
-                </button>
-                <button
-                    onClick={() => router.push('/staff/OnGoingPayments')}
-                    className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
+                    <h3 className="text-2xl font-bold">On Going Top Ups &rarr;</h3>
+                </Link>
+                <Link
+                    href="/staff/OnGoingPayments"
+                    className="p-6 text-center border rounded-xl hover:text-white focus:text-black transition-colors duration-300 ease-in-out hover:bg-gradient-to-br from-indigo-500 to-purple-500 bg-white shadow-lg"
                 >
-                    On Going Payments
-                </button>
-                <button
-                    onClick={() => router.push('/staff/TopUpHistory')}
-                    className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
+                    <h3 className="text-2xl font-bold">On Going Payments &rarr;</h3>
+                </Link>
+                <Link
+                    href="/staff/TopUpHistory"
+                    className="p-6 text-center border rounded-xl hover:text-white focus:text-black transition-colors duration-300 ease-in-out hover:bg-gradient-to-br from-indigo-500 to-purple-500 bg-white shadow-lg"
                 >
-                    Top Up History
-                </button>
-                <button
-                    onClick={() => router.push('/staff/PaymentHistory')}
-                    className="px-4 py-16 bg-blue-500 text-white text-2xl font-bold rounded-lg hover:bg-blue-700"
+                    <h3 className="text-2xl font-bold">Top Up History &rarr;</h3>
+                </Link>
+                <Link
+                    href="/staff/PaymentHistory"
+                    className="p-6 text-center border rounded-xl hover:text-white focus:text-black transition-colors duration-300 ease-in-out hover:bg-gradient-to-br from-indigo-500 to-purple-500 bg-white shadow-lg"
                 >
-                    Payment History
-                </button>
+                    <h3 className="text-2xl font-bold">Payment History &rarr;</h3>
+                </Link>
             </div>
         </div>
     );
