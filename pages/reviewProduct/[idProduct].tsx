@@ -16,7 +16,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ reviews, idProduct }) => {
   const [reviewsState, setReviews] = useState<Review[]>(reviews); // Use a clearer state variable name
   const usernameget = getCookie('username');
   return (
-    <div>
+    <div  className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-500">
       <Header /> 
       <ReviewList reviews={reviewsState} productId={idProduct} username={usernameget|| 'guest'} />
     </div>

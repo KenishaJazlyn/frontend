@@ -75,7 +75,7 @@ const NewReviewForm: React.FC<NewReviewFormProps> = ({ onSubmit, id }) => {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-lg mx-auto">
-        <h1 className="text-2xl font-bold text-center">Review</h1>
+        <h1 className="text-5xl font-bold text-center">Review</h1>
 
         <div className="mt-8 bg-white shadow-lg rounded-lg">
           <form className="p-4 bg-gray-50" onSubmit={handleSubmit}>

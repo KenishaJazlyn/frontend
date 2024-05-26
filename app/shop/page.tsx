@@ -29,6 +29,9 @@ const ShopPage = () => {
               <button className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-300">
                 Add to Cart
               </button>
+              <button className="bg-indigo-500 mt-5 mr-6 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-300">
+               Review
+              </button>
             </div>
           </div>
         ))}

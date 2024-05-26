@@ -31,7 +31,7 @@ const CreateReviewPage: React.FC = () => {
   return (
     <div>
       <Header /> 
-    <div className="flex justify-center my-8">
+    <div  className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-500">
       <NewReviewForm onSubmit={handleFormSubmit} id={idProduct as string} />
     </div></div>
   );

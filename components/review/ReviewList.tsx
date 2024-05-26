@@ -77,7 +77,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, productId, username })
 
   return (
     <div className="py-12 container mx-auto">
-      <h1 className="text-2xl font-bold text-center">Product Reviews</h1>
+      <h1 className="text-5xl font-bold text-center">Product Reviews</h1>
       <div className="flex justify-end mb-4">
         <select value={sortOrder} onChange={handleSortChange} className="border rounded p-2">
           <option value="">No Sorting</option>

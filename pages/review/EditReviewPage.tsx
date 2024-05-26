@@ -52,7 +52,7 @@ const EditReviewPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-500 to-purple-500">
       <Header /> 
       <div className="flex justify-center my-8">
         {review && <EditReviewForm review={review} onSubmit={handleFormSubmit} error={error}/>}
