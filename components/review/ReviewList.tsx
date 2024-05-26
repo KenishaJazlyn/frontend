@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import '@/styles/globals.css';
+import { getCookie } from '@/utils/cookies';
 
 export interface Review {
     reviewId: string;
@@ -13,13 +14,14 @@ export interface Review {
 interface ReviewListProps {
   reviews: Review[];
   productId: string;
+  username: string;
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({ reviews, productId }) => {
+const ReviewList: React.FC<ReviewListProps> = ({ reviews, productId, username }) => {
   const router = useRouter();
   const [currentReviews, setReviews] = useState<Review[]>(reviews);
   const [sortOrder, setSortOrder] = useState<string>('');
-
+  
   const deleteReview = async (reviewId: string) => {
     try {
       const response = await fetch(`http://34.87.57.125/api/delReview/${reviewId}`, {

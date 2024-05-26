@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import '@/styles/globals.css';
+import { setCookie } from '@/utils/cookies';
 
 interface UserLoginFormProps {
   onSubmit: (userLogin: UserLoginData) => void;
@@ -39,6 +40,8 @@ const UserLoginForm: React.FC<UserLoginFormProps> = ({ onSubmit }) => {
         console.log("000Login successful");
         const data = await response.json();
         localStorage.setItem('token', data.token);
+        setCookie('bearer', data.token, 7);  
+        setCookie('username', data.username, 7);  
         console.log(data.token)
         onSubmit(data); // Pass the response data to the parent component
         // Store token in local storage or cookies

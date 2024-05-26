@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import ReviewList, { Review } from '@/components/review/ReviewList';
 import '@/app/globals.css';
+import Header from '@/components/Header';
+import { getCookie } from '@/utils/cookies';
 
 const API_URL = 'http://34.87.57.125/api/reviewProduct'; // Ganti dengan URL API Anda
 
@@ -12,10 +14,11 @@ interface ReviewPageProps {
 
 const ReviewPage: React.FC<ReviewPageProps> = ({ reviews, idProduct }) => {
   const [reviewsState, setReviews] = useState<Review[]>(reviews); // Use a clearer state variable name
-
+  const usernameget = getCookie('username');
   return (
     <div>
-      <ReviewList reviews={reviewsState} productId={idProduct} />
+      <Header /> 
+      <ReviewList reviews={reviewsState} productId={idProduct} username={usernameget|| 'guest'} />
     </div>
   );
 };

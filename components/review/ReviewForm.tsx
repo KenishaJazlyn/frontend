@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import '@/styles/globals.css';
 import { useEffect } from 'react';
+import { getCookie } from '@/utils/cookies';
+import Header from '../Header';
 interface NewReviewFormProps {
   onSubmit: (newReview: NewReviewData) => void;
   id : string;
@@ -18,8 +20,9 @@ const NewReviewForm: React.FC<NewReviewFormProps> = ({ onSubmit, id }) => {
   const router = useRouter();
   const [error, setError] = useState<string>('');
   console.log("disini", id)
+  const username = getCookie('username');
   const [formData, setFormData] = useState<NewReviewData>({
-    userId: 'userNextjs',
+    userId: username || 'guest', 
     productId: id,
     rating: 1,
     review: '',

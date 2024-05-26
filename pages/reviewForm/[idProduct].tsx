@@ -2,6 +2,7 @@ import * as React from "react";
 import { useRouter } from 'next/router';
 import NewReviewForm, { NewReviewData } from "@/components/review/ReviewForm";
 import '@/app/globals.css';
+import Header from "@/components/Header";
 
 const CreateReviewPage: React.FC = () => {
   const router = useRouter();
@@ -28,9 +29,11 @@ const CreateReviewPage: React.FC = () => {
   };
 
   return (
+    <div>
+      <Header /> 
     <div className="flex justify-center my-8">
       <NewReviewForm onSubmit={handleFormSubmit} id={idProduct as string} />
-    </div>
+    </div></div>
   );
 };
 

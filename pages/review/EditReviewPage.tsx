@@ -53,6 +53,7 @@ const EditReviewPage: React.FC = () => {
 
   return (
     <div>
+      <Header /> 
       <div className="flex justify-center my-8">
         {review && <EditReviewForm review={review} onSubmit={handleFormSubmit} error={error}/>}
       </div>
