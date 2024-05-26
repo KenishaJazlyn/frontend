@@ -14,7 +14,7 @@ const OnGoingTopUps: React.FC = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const baseUrl = 'http://localhost:8080/api/topups/pending';
+            const baseUrl = 'http://34.87.57.125/api/topups/pending';
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
             console.log('Response status:', response.status);
