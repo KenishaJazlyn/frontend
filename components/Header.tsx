@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import '@/styles/globals.css';
 import { getCookie, removeCookie } from '@/utils/cookies';
 import { useRouter } from 'next/router';
@@ -19,7 +20,11 @@ const Header: React.FC = () => {
     <header>
       <nav className="bg-white text-black border-gray-200 px-4 lg:px-6 py-2.5 !bg-white !text-black">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <span className="self-center text-xl font-semibold whitespace-nowrap !text-black">Farrel</span>
+          <Link href="/">
+            <span className="self-center text-xl font-semibold whitespace-nowrap cursor-pointer !text-black">
+              Farrel
+            </span>
+          </Link>
           <div className="flex items-center lg:order-2">
             {username && (
               <span className="text-gray-800 dark:text-black mr-2">Welcome, {username}</span>
