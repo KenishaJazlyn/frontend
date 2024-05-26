@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { getCookie } from "@/utils/cookies";
 
 const ProductDetailPage = ({ params }: { params: { id: string } }) => {
   const { id } = params;
+  const userId = getCookie("userId");
 
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -31,8 +33,6 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
   }, [id]);
 
   const handleAddToCart = async () => {
-    const userId = "d72da3aa-54cb-4f63-8bba-e98e896e5427"; // Replace with actual user ID
-
     const requestBody = {
       productId: product.productId,
       quantity,
@@ -86,7 +86,8 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
         </p>
         <p className="text-gray-600 mb-4">Stock: {product.stockQuantity}</p>
         <p className="text-gray-600">Seller ID: {product.sellerId}</p>
-        <div className="flex items-center my-5 gap-5">
+
+        <div className="flex flex-row justify-normal my-5 gap-5">
           <button
             onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
             className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md"
@@ -100,8 +101,6 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
           >
             +
           </button>
-        </div>
-        <div className="flex flex-row my-5 gap-5 justify-end">
           <Link
             href="#"
             onClick={handleAddToCart}
@@ -109,6 +108,8 @@ const ProductDetailPage = ({ params }: { params: { id: string } }) => {
           >
             Add to Cart
           </Link>
+        </div>
+        <div className="flex flex-col my-5 gap-5 justify-center items-end">
           <Link
             href={`/reviewProduct/${product.productId}`}
             className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-300"
