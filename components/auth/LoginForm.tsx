@@ -57,6 +57,12 @@ const UserLoginForm: React.FC<UserLoginFormProps> = ({ onSubmit }) => {
       console.error('Error submitting form:', error);
     }
   };
+  const handleRegister = () => {
+    // Hapus cookie di sini
+    
+    // Redirect ke halaman login
+    router.push('/register'); // Ganti '/login' dengan URL halaman login Anda
+  };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -92,7 +98,8 @@ const UserLoginForm: React.FC<UserLoginFormProps> = ({ onSubmit }) => {
             <button type="submit" className="w-full p-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">Login</button>
           </form>
           <div className="mt-4 text-center">
-            <p>Don&apos;t have an account? <Link href="/register"><a className="text-indigo-600 hover:underline">Register</a></Link></p>
+            <p>Don&apos;t have an account?</p>
+            <button onClick={() => router.push(`/register`)}className="w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700">Register</button>
           </div>
         </div>
       </div>
