@@ -13,6 +13,9 @@ const OnGoingPayments: React.FC = () => {
         setLoading(true);
         try {
             const baseUrl = 'http://34.87.57.125/product';
+            // const baseUrl = 'http://localhost:8080/product';
+            
+            
 
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
@@ -50,6 +53,7 @@ const OnGoingPayments: React.FC = () => {
     const handleDelete = async (id: string) => {
         try {
             const response = await fetch(` http://34.87.57.125/product/${id}`, {
+                // const response = await fetch(' http://localhost:8080/product/${id}', {
 
                 method: 'DELETE',
             });

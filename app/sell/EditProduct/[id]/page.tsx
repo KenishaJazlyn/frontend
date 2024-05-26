@@ -19,6 +19,7 @@ const EditProduct: React.FC = () => {
         const fetchProduct = async () => {
             try {
                 const response = await fetch(` http://34.87.57.125/product/${params!.id}`);
+                // const response = await fetch(' http://localhost:8080/product/${params!.id}');
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch product');
@@ -43,6 +44,7 @@ const EditProduct: React.FC = () => {
 
         try {
             const response = await fetch(` https://34.87.57.125/product/${params!.id}`, {
+                // const response = await fetch(' http://localhost:8080/product/${params!.id}', {
 
                 method: 'PUT',
                 headers: {
@@ -52,7 +54,7 @@ const EditProduct: React.FC = () => {
                     productName,
                     description,
                     price: parseFloat(price),
-                    stockQuantity: parseInt(stockQuantity, 10),
+                    stockQuantity: parseInt(stockQuantity),
                     imageUrl,
                     sellerId,
                 }),
@@ -73,7 +75,7 @@ const EditProduct: React.FC = () => {
     return (
         <div className="py-12 container mx-auto">
             <button
-                onClick={() => router.push('/sell')}
+                onClick={() => router.push('/sell/ListProduct')}
                 className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700 mb-4"
             >
                 Back

@@ -17,6 +17,7 @@ const EditOrder: React.FC = () => {
         const fetchOrder = async () => {
             try {
                 const response = await fetch(` http://34.87.57.125/order/${params!.id}`);
+                // const response = await fetch(' http://localhost:8080/order/${params!.id}');
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch order');
@@ -39,6 +40,8 @@ const EditOrder: React.FC = () => {
 
         try {
             const response = await fetch(` http://34.87.57.125/order/${params!.id}`, {
+            // const response = await fetch(' http://localhost:8080/order/${params!.id}', {
+
 
                 method: 'PUT',
                 headers: {

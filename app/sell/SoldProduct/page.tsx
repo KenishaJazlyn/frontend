@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
 
-const OnGoingPayments: React.FC = () => {
+const SoldProducts: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [sortMethod, setSortMethod] = useState<string | null>(null);
@@ -12,9 +12,7 @@ const OnGoingPayments: React.FC = () => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            const baseUrl = ' http://34.87.57.125/order';
-            // const baseUrl = ' http://localhost:8080/order';
-
+            const baseUrl = 'http://34.87.57.125/order';
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
             console.log('Response status:', response.status);
@@ -23,7 +21,7 @@ const OnGoingPayments: React.FC = () => {
             }
             const result = await response.json();
             console.log('Fetched data:', result);
-            const filteredData = result.filter((order: any) => order.status === "WAITING_PAYMENT");
+            const filteredData = result.filter((order: any) => order.status === "SUCCESS");
             setData(filteredData);
         } catch (error) {
             console.error("Error fetching data", error);
@@ -56,7 +54,7 @@ const OnGoingPayments: React.FC = () => {
             >
                 Back
             </button>
-            <h1 className="text-2xl font-bold text-center">On Going Orders</h1>
+            <h1 className="text-2xl font-bold text-center">Sold Products</h1>
             <div className="flex justify-end mb-4">
                 <select 
                     onChange={handleSortChange}
@@ -75,23 +73,26 @@ const OnGoingPayments: React.FC = () => {
                         {sortedData.length === 0 ? (
                             <p className="text-center">No data to display</p>
                         ) : (
-                            sortedData.map(order => (
-                                <div key={order.id} className="bg-white shadow-lg rounded-lg p-4 mb-4">
-                                    <p><strong>Order ID:</strong> {order.id}</p>
-                                    <p><strong>Status:</strong> {order.status}</p>
-                                    <p><strong>Buyer ID:</strong> {order.buyerId}</p>
-                                    <p><strong>Product:</strong> {order.productName}</p>
-
-                                    <div className="flex space-x-4 mt-2">
-                                        <button
-                                            onClick={() => router.push(`/sell/EditOrder/${order.id}`)}
-                                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-                                        >
-                                            Edit
-                                        </button>
-                                    </div>
-                                </div>
-                            ))
+                            <table className="min-w-full bg-white">
+                                <thead>
+                                    <tr>
+                                        <th className="py-2 px-4 border-b">Order ID</th>
+                                        <th className="py-2 px-4 border-b">Product Name</th>
+                                        <th className="py-2 px-4 border-b">Buyer ID</th>
+                                        <th className="py-2 px-4 border-b">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {sortedData.map(order => (
+                                        <tr key={order.id}>
+                                            <td className="py-2 px-4 border-b">{order.id}</td>
+                                            <td className="py-2 px-4 border-b">{order.productName}</td>
+                                            <td className="py-2 px-4 border-b">{order.buyerId}</td>
+                                            <td className="py-2 px-4 border-b">{order.status}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         )}
                     </div>
                 )}
@@ -100,4 +101,4 @@ const OnGoingPayments: React.FC = () => {
     );
 };
 
-export default OnGoingPayments;
+export default SoldProducts;
