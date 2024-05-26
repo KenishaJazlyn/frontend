@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import '@/styles/globals.css';
+import withAuth from '@/components/hoc/withAuth';
 
 const Dashboard: React.FC = () => {
     const router = useRouter();
@@ -40,4 +41,4 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard, ['STAFF']);

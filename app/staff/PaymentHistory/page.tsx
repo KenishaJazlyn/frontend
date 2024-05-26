@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
+import withAuth from '@/components/hoc/withAuth';
 
 const PaymentHistory: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
@@ -83,4 +84,4 @@ const PaymentHistory: React.FC = () => {
     );
 };
 
-export default PaymentHistory;
+export default withAuth(PaymentHistory, ['STAFF']);

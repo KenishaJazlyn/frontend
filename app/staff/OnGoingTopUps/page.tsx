@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
+import withAuth from '@/components/hoc/withAuth';
 
 const OnGoingTopUps: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
@@ -112,4 +113,4 @@ const OnGoingTopUps: React.FC = () => {
     );
 };
 
-export default OnGoingTopUps;
+export default withAuth(OnGoingTopUps, ['STAFF']);

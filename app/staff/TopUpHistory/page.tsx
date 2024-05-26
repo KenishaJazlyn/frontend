@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
+import withAuth from '@/components/hoc/withAuth';
 
 const TopUpHistory: React.FC = () => {
     const [data, setData] = useState<any[]>([]);
@@ -86,4 +87,4 @@ const TopUpHistory: React.FC = () => {
     );
 };
 
-export default TopUpHistory;
+export default withAuth(TopUpHistory, ['STAFF']);
