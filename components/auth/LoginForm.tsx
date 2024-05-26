@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
 import '@/styles/globals.css';
 import { setCookie } from '@/utils/cookies';
 
@@ -44,6 +44,7 @@ const UserLoginForm: React.FC<UserLoginFormProps> = ({ onSubmit }) => {
         setCookie('username', data.username, 7);  
         console.log(data.token)
         onSubmit(data); // Pass the response data to the parent component
+        router.push('/');
         // Store token in local storage or cookies
       } else {
         const errorResponse = await response.text();

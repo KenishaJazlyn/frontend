@@ -1,6 +1,8 @@
 // pages/index.js
+import Header from "@/components/Header";
 import Head from "next/head";
 import Link from "next/link";
+import router from "next/router";
 
 export default function Home() {
   return (
