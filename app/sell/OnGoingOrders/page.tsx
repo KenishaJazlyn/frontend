@@ -16,6 +16,7 @@ const OnGoingPayments: React.FC = () => {
         setLoading(true);
         try {
             const baseUrl = 'http://34.87.57.125/order';
+            // const baseUrl = 'http://localhost:8080/order';
             const url = sortMethod ? `${baseUrl}?sort=${sortMethod}` : baseUrl;
             const response = await fetch(url);
             console.log('Response status:', response.status);
@@ -37,6 +38,7 @@ const OnGoingPayments: React.FC = () => {
         setLoading(true);
         try {
             const baseUrl = 'http://34.87.57.125/product';
+            // const baseUrl = 'http://localhost:8080/order';
             const url = `${baseUrl}`;
             const response = await fetch(url);
             console.log('Response status:', response.status);
@@ -62,7 +64,8 @@ const OnGoingPayments: React.FC = () => {
         setSortMethod(e.target.value);
     };
 
-    const productIds = products.map(product => product.productId);
+    const filteredProducts = products.filter(product => product.sellerId === username);
+    const productIds = filteredProducts.map(product => product.productId);
     const filteredOrders = orders.filter(order => productIds.includes(order.id));
 
     const sortedOrders = [...filteredOrders].sort((a, b) => {

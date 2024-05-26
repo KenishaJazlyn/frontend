@@ -2,13 +2,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/app/globals.css';
+import { getCookie } from '@/utils/cookies';
 
 interface Order {
     id: string;
     productName: string;
     buyerId: string;
     status: string;
-    productId: string; // Add productId to Order interface
+    productId: string; // Ensure productId is part of Order interface
 }
 
 interface Product {
@@ -23,6 +24,7 @@ const OrdersList: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
+    const username = getCookie('username');
 
     const fetchOrders = useCallback(async () => {
         try {
@@ -64,7 +66,8 @@ const OrdersList: React.FC = () => {
         fetchProducts();
     }, [fetchOrders, fetchProducts]);
 
-    const productIds = products.map(product => product.productId);
+    const filteredProducts = products.filter(product => product.sellerId === username);
+    const productIds = filteredProducts.map(product => product.productId);
     const filteredOrders = orders.filter(order => productIds.includes(order.id));
 
     return (
